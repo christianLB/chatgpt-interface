@@ -1,0 +1,5120 @@
+type Query {
+  Todo(id: String!, draft: Boolean): Todo
+  Todos(where: Todo_where, draft: Boolean, page: Int, limit: Int, sort: String): Todos
+  docAccessTodo(id: String!): todosDocAccess
+  User(id: String!, draft: Boolean): User
+  Users(where: User_where, draft: Boolean, page: Int, limit: Int, sort: String): Users
+  docAccessUser(id: String!): usersDocAccess
+  meUser: usersMe
+  initializedUser: Boolean
+  Expense(id: String!, draft: Boolean): Expense
+  Expenses(where: Expense_where, draft: Boolean, page: Int, limit: Int, sort: String): Expenses
+  docAccessExpense(id: String!): expensesDocAccess
+  ExpenseCategory(id: String!, draft: Boolean): ExpenseCategory
+  ExpenseCategories(where: ExpenseCategory_where, draft: Boolean, page: Int, limit: Int, sort: String): ExpenseCategories
+  docAccessExpenseCategory(id: String!): expense_categoryDocAccess
+  ExpenseGroup(id: String!, draft: Boolean): ExpenseGroup
+  ExpenseGroups(where: ExpenseGroup_where, draft: Boolean, page: Int, limit: Int, sort: String): ExpenseGroups
+  docAccessExpenseGroup(id: String!): expense_groupDocAccess
+  Income(id: String!, draft: Boolean): Income
+  Incomes(where: Income_where, draft: Boolean, page: Int, limit: Int, sort: String): Incomes
+  docAccessIncome(id: String!): incomesDocAccess
+  Client(id: String!, draft: Boolean): Client
+  Clients(where: Client_where, draft: Boolean, page: Int, limit: Int, sort: String): Clients
+  docAccessClient(id: String!): clientsDocAccess
+  Score(id: String!, draft: Boolean): Score
+  Scores(where: Score_where, draft: Boolean, page: Int, limit: Int, sort: String): Scores
+  docAccessScore(id: String!): scoresDocAccess
+  Bloque(id: String!, draft: Boolean): Bloque
+  Bloques(where: Bloque_where, draft: Boolean, page: Int, limit: Int, sort: String): Bloques
+  docAccessBloque(id: String!): bloquesDocAccess
+  Conexione(id: String!, draft: Boolean): Conexione
+  Conexiones(where: Conexione_where, draft: Boolean, page: Int, limit: Int, sort: String): Conexiones
+  docAccessConexione(id: String!): conexionesDocAccess
+  Preference(key: String): Preference
+  Access: Access
+}
+
+type Todo {
+  id: String
+  listName: String
+  tasks: [Todo_Tasks!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Todo_Tasks {
+  name: String
+  complete: Boolean
+  id: String
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+type Todos {
+  docs: [Todo]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Todo_where {
+  listName: Todo_listName_operator
+  tasks__name: Todo_tasks__name_operator
+  tasks__complete: Todo_tasks__complete_operator
+  tasks__id: Todo_tasks__id_operator
+  updatedAt: Todo_updatedAt_operator
+  createdAt: Todo_createdAt_operator
+  id: Todo_id_operator
+  OR: [Todo_where_or]
+  AND: [Todo_where_and]
+}
+
+input Todo_listName_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Todo_tasks__name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Todo_tasks__complete_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Todo_tasks__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Todo_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Todo_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Todo_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+input Todo_where_or {
+  listName: Todo_listName_operator
+  tasks__name: Todo_tasks__name_operator
+  tasks__complete: Todo_tasks__complete_operator
+  tasks__id: Todo_tasks__id_operator
+  updatedAt: Todo_updatedAt_operator
+  createdAt: Todo_createdAt_operator
+  id: Todo_id_operator
+}
+
+input Todo_where_and {
+  listName: Todo_listName_operator
+  tasks__name: Todo_tasks__name_operator
+  tasks__complete: Todo_tasks__complete_operator
+  tasks__id: Todo_tasks__id_operator
+  updatedAt: Todo_updatedAt_operator
+  createdAt: Todo_createdAt_operator
+  id: Todo_id_operator
+}
+
+type todosDocAccess {
+  fields: TodosDocAccessFields
+  create: TodosCreateDocAccess
+  read: TodosReadDocAccess
+  update: TodosUpdateDocAccess
+  delete: TodosDeleteDocAccess
+}
+
+type TodosDocAccessFields {
+  listName: TodosDocAccessFields_listName
+  tasks: TodosDocAccessFields_tasks
+  updatedAt: TodosDocAccessFields_updatedAt
+  createdAt: TodosDocAccessFields_createdAt
+}
+
+type TodosDocAccessFields_listName {
+  create: TodosDocAccessFields_listName_Create
+  read: TodosDocAccessFields_listName_Read
+  update: TodosDocAccessFields_listName_Update
+  delete: TodosDocAccessFields_listName_Delete
+}
+
+type TodosDocAccessFields_listName_Create {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_listName_Read {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_listName_Update {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_listName_Delete {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks {
+  create: TodosDocAccessFields_tasks_Create
+  read: TodosDocAccessFields_tasks_Read
+  update: TodosDocAccessFields_tasks_Update
+  delete: TodosDocAccessFields_tasks_Delete
+  fields: TodosDocAccessFields_tasks_Fields
+}
+
+type TodosDocAccessFields_tasks_Create {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_Read {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_Update {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_Delete {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_Fields {
+  name: TodosDocAccessFields_tasks_name
+  complete: TodosDocAccessFields_tasks_complete
+  id: TodosDocAccessFields_tasks_id
+}
+
+type TodosDocAccessFields_tasks_name {
+  create: TodosDocAccessFields_tasks_name_Create
+  read: TodosDocAccessFields_tasks_name_Read
+  update: TodosDocAccessFields_tasks_name_Update
+  delete: TodosDocAccessFields_tasks_name_Delete
+}
+
+type TodosDocAccessFields_tasks_name_Create {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_name_Read {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_name_Update {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_name_Delete {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_complete {
+  create: TodosDocAccessFields_tasks_complete_Create
+  read: TodosDocAccessFields_tasks_complete_Read
+  update: TodosDocAccessFields_tasks_complete_Update
+  delete: TodosDocAccessFields_tasks_complete_Delete
+}
+
+type TodosDocAccessFields_tasks_complete_Create {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_complete_Read {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_complete_Update {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_complete_Delete {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_id {
+  create: TodosDocAccessFields_tasks_id_Create
+  read: TodosDocAccessFields_tasks_id_Read
+  update: TodosDocAccessFields_tasks_id_Update
+  delete: TodosDocAccessFields_tasks_id_Delete
+}
+
+type TodosDocAccessFields_tasks_id_Create {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_id_Read {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_id_Update {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_tasks_id_Delete {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_updatedAt {
+  create: TodosDocAccessFields_updatedAt_Create
+  read: TodosDocAccessFields_updatedAt_Read
+  update: TodosDocAccessFields_updatedAt_Update
+  delete: TodosDocAccessFields_updatedAt_Delete
+}
+
+type TodosDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_createdAt {
+  create: TodosDocAccessFields_createdAt_Create
+  read: TodosDocAccessFields_createdAt_Read
+  update: TodosDocAccessFields_createdAt_Update
+  delete: TodosDocAccessFields_createdAt_Delete
+}
+
+type TodosDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type TodosDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type TodosCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+type TodosReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type TodosUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type TodosDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type User {
+  id: String
+  updatedAt: DateTime
+  createdAt: DateTime
+  email: EmailAddress
+  resetPasswordToken: String
+  resetPasswordExpiration: DateTime
+  loginAttempts: Float
+  lockUntil: DateTime
+  password: String!
+}
+
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar EmailAddress @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
+
+type Users {
+  docs: [User]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input User_where {
+  updatedAt: User_updatedAt_operator
+  createdAt: User_createdAt_operator
+  email: User_email_operator
+  id: User_id_operator
+  OR: [User_where_or]
+  AND: [User_where_and]
+}
+
+input User_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input User_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input User_email_operator {
+  equals: EmailAddress
+  not_equals: EmailAddress
+  like: EmailAddress
+  contains: EmailAddress
+  in: [EmailAddress]
+  not_in: [EmailAddress]
+  all: [EmailAddress]
+  exists: Boolean
+}
+
+input User_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input User_where_or {
+  updatedAt: User_updatedAt_operator
+  createdAt: User_createdAt_operator
+  email: User_email_operator
+  id: User_id_operator
+}
+
+input User_where_and {
+  updatedAt: User_updatedAt_operator
+  createdAt: User_createdAt_operator
+  email: User_email_operator
+  id: User_id_operator
+}
+
+type usersDocAccess {
+  fields: UsersDocAccessFields
+  create: UsersCreateDocAccess
+  read: UsersReadDocAccess
+  update: UsersUpdateDocAccess
+  delete: UsersDeleteDocAccess
+  unlock: UsersUnlockDocAccess
+}
+
+type UsersDocAccessFields {
+  updatedAt: UsersDocAccessFields_updatedAt
+  createdAt: UsersDocAccessFields_createdAt
+  email: UsersDocAccessFields_email
+  password: UsersDocAccessFields_password
+}
+
+type UsersDocAccessFields_updatedAt {
+  create: UsersDocAccessFields_updatedAt_Create
+  read: UsersDocAccessFields_updatedAt_Read
+  update: UsersDocAccessFields_updatedAt_Update
+  delete: UsersDocAccessFields_updatedAt_Delete
+}
+
+type UsersDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_createdAt {
+  create: UsersDocAccessFields_createdAt_Create
+  read: UsersDocAccessFields_createdAt_Read
+  update: UsersDocAccessFields_createdAt_Update
+  delete: UsersDocAccessFields_createdAt_Delete
+}
+
+type UsersDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email {
+  create: UsersDocAccessFields_email_Create
+  read: UsersDocAccessFields_email_Read
+  update: UsersDocAccessFields_email_Update
+  delete: UsersDocAccessFields_email_Delete
+}
+
+type UsersDocAccessFields_email_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password {
+  create: UsersDocAccessFields_password_Create
+  read: UsersDocAccessFields_password_Read
+  update: UsersDocAccessFields_password_Update
+  delete: UsersDocAccessFields_password_Delete
+}
+
+type UsersDocAccessFields_password_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Delete {
+  permission: Boolean!
+}
+
+type UsersCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUnlockDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type usersMe {
+  token: String
+  user: User
+  exp: Int
+  collection: String
+}
+
+type Expense {
+  id: String
+  name: String
+  amount: Float
+  balance: Float
+  date: DateTime
+  account: String
+  currency: String
+  valueDate: DateTime
+  notes: String
+  category: ExpenseCategory
+  group: ExpenseGroup
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type ExpenseCategory {
+  id: String
+  name: String
+  icon: String
+  color: String
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type ExpenseGroup {
+  id: String
+  name: String
+  icon: String
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Expenses {
+  docs: [Expense]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Expense_where {
+  name: Expense_name_operator
+  amount: Expense_amount_operator
+  balance: Expense_balance_operator
+  date: Expense_date_operator
+  account: Expense_account_operator
+  currency: Expense_currency_operator
+  valueDate: Expense_valueDate_operator
+  notes: Expense_notes_operator
+  category: Expense_category_operator
+  group: Expense_group_operator
+  updatedAt: Expense_updatedAt_operator
+  createdAt: Expense_createdAt_operator
+  id: Expense_id_operator
+  OR: [Expense_where_or]
+  AND: [Expense_where_and]
+}
+
+input Expense_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Expense_amount_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Expense_balance_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Expense_date_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Expense_account_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Expense_currency_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Expense_valueDate_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Expense_notes_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Expense_category_operator {
+  equals: String
+  not_equals: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Expense_group_operator {
+  equals: String
+  not_equals: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Expense_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Expense_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Expense_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Expense_where_or {
+  name: Expense_name_operator
+  amount: Expense_amount_operator
+  balance: Expense_balance_operator
+  date: Expense_date_operator
+  account: Expense_account_operator
+  currency: Expense_currency_operator
+  valueDate: Expense_valueDate_operator
+  notes: Expense_notes_operator
+  category: Expense_category_operator
+  group: Expense_group_operator
+  updatedAt: Expense_updatedAt_operator
+  createdAt: Expense_createdAt_operator
+  id: Expense_id_operator
+}
+
+input Expense_where_and {
+  name: Expense_name_operator
+  amount: Expense_amount_operator
+  balance: Expense_balance_operator
+  date: Expense_date_operator
+  account: Expense_account_operator
+  currency: Expense_currency_operator
+  valueDate: Expense_valueDate_operator
+  notes: Expense_notes_operator
+  category: Expense_category_operator
+  group: Expense_group_operator
+  updatedAt: Expense_updatedAt_operator
+  createdAt: Expense_createdAt_operator
+  id: Expense_id_operator
+}
+
+type expensesDocAccess {
+  fields: ExpensesDocAccessFields
+  create: ExpensesCreateDocAccess
+  read: ExpensesReadDocAccess
+  update: ExpensesUpdateDocAccess
+  delete: ExpensesDeleteDocAccess
+}
+
+type ExpensesDocAccessFields {
+  name: ExpensesDocAccessFields_name
+  amount: ExpensesDocAccessFields_amount
+  balance: ExpensesDocAccessFields_balance
+  date: ExpensesDocAccessFields_date
+  account: ExpensesDocAccessFields_account
+  currency: ExpensesDocAccessFields_currency
+  valueDate: ExpensesDocAccessFields_valueDate
+  notes: ExpensesDocAccessFields_notes
+  category: ExpensesDocAccessFields_category
+  group: ExpensesDocAccessFields_group
+  updatedAt: ExpensesDocAccessFields_updatedAt
+  createdAt: ExpensesDocAccessFields_createdAt
+}
+
+type ExpensesDocAccessFields_name {
+  create: ExpensesDocAccessFields_name_Create
+  read: ExpensesDocAccessFields_name_Read
+  update: ExpensesDocAccessFields_name_Update
+  delete: ExpensesDocAccessFields_name_Delete
+}
+
+type ExpensesDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_amount {
+  create: ExpensesDocAccessFields_amount_Create
+  read: ExpensesDocAccessFields_amount_Read
+  update: ExpensesDocAccessFields_amount_Update
+  delete: ExpensesDocAccessFields_amount_Delete
+}
+
+type ExpensesDocAccessFields_amount_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_amount_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_amount_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_amount_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_balance {
+  create: ExpensesDocAccessFields_balance_Create
+  read: ExpensesDocAccessFields_balance_Read
+  update: ExpensesDocAccessFields_balance_Update
+  delete: ExpensesDocAccessFields_balance_Delete
+}
+
+type ExpensesDocAccessFields_balance_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_balance_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_balance_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_balance_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_date {
+  create: ExpensesDocAccessFields_date_Create
+  read: ExpensesDocAccessFields_date_Read
+  update: ExpensesDocAccessFields_date_Update
+  delete: ExpensesDocAccessFields_date_Delete
+}
+
+type ExpensesDocAccessFields_date_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_date_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_date_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_date_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_account {
+  create: ExpensesDocAccessFields_account_Create
+  read: ExpensesDocAccessFields_account_Read
+  update: ExpensesDocAccessFields_account_Update
+  delete: ExpensesDocAccessFields_account_Delete
+}
+
+type ExpensesDocAccessFields_account_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_account_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_account_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_account_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_currency {
+  create: ExpensesDocAccessFields_currency_Create
+  read: ExpensesDocAccessFields_currency_Read
+  update: ExpensesDocAccessFields_currency_Update
+  delete: ExpensesDocAccessFields_currency_Delete
+}
+
+type ExpensesDocAccessFields_currency_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_currency_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_currency_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_currency_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_valueDate {
+  create: ExpensesDocAccessFields_valueDate_Create
+  read: ExpensesDocAccessFields_valueDate_Read
+  update: ExpensesDocAccessFields_valueDate_Update
+  delete: ExpensesDocAccessFields_valueDate_Delete
+}
+
+type ExpensesDocAccessFields_valueDate_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_valueDate_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_valueDate_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_valueDate_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_notes {
+  create: ExpensesDocAccessFields_notes_Create
+  read: ExpensesDocAccessFields_notes_Read
+  update: ExpensesDocAccessFields_notes_Update
+  delete: ExpensesDocAccessFields_notes_Delete
+}
+
+type ExpensesDocAccessFields_notes_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_notes_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_notes_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_notes_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_category {
+  create: ExpensesDocAccessFields_category_Create
+  read: ExpensesDocAccessFields_category_Read
+  update: ExpensesDocAccessFields_category_Update
+  delete: ExpensesDocAccessFields_category_Delete
+}
+
+type ExpensesDocAccessFields_category_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_category_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_category_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_category_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_group {
+  create: ExpensesDocAccessFields_group_Create
+  read: ExpensesDocAccessFields_group_Read
+  update: ExpensesDocAccessFields_group_Update
+  delete: ExpensesDocAccessFields_group_Delete
+}
+
+type ExpensesDocAccessFields_group_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_group_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_group_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_group_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_updatedAt {
+  create: ExpensesDocAccessFields_updatedAt_Create
+  read: ExpensesDocAccessFields_updatedAt_Read
+  update: ExpensesDocAccessFields_updatedAt_Update
+  delete: ExpensesDocAccessFields_updatedAt_Delete
+}
+
+type ExpensesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_createdAt {
+  create: ExpensesDocAccessFields_createdAt_Create
+  read: ExpensesDocAccessFields_createdAt_Read
+  update: ExpensesDocAccessFields_createdAt_Update
+  delete: ExpensesDocAccessFields_createdAt_Delete
+}
+
+type ExpensesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ExpensesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ExpensesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpensesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpensesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpensesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseCategories {
+  docs: [ExpenseCategory]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input ExpenseCategory_where {
+  name: ExpenseCategory_name_operator
+  icon: ExpenseCategory_icon_operator
+  color: ExpenseCategory_color_operator
+  updatedAt: ExpenseCategory_updatedAt_operator
+  createdAt: ExpenseCategory_createdAt_operator
+  id: ExpenseCategory_id_operator
+  OR: [ExpenseCategory_where_or]
+  AND: [ExpenseCategory_where_and]
+}
+
+input ExpenseCategory_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input ExpenseCategory_icon_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input ExpenseCategory_color_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input ExpenseCategory_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input ExpenseCategory_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input ExpenseCategory_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input ExpenseCategory_where_or {
+  name: ExpenseCategory_name_operator
+  icon: ExpenseCategory_icon_operator
+  color: ExpenseCategory_color_operator
+  updatedAt: ExpenseCategory_updatedAt_operator
+  createdAt: ExpenseCategory_createdAt_operator
+  id: ExpenseCategory_id_operator
+}
+
+input ExpenseCategory_where_and {
+  name: ExpenseCategory_name_operator
+  icon: ExpenseCategory_icon_operator
+  color: ExpenseCategory_color_operator
+  updatedAt: ExpenseCategory_updatedAt_operator
+  createdAt: ExpenseCategory_createdAt_operator
+  id: ExpenseCategory_id_operator
+}
+
+type expense_categoryDocAccess {
+  fields: ExpenseCategoryDocAccessFields
+  create: ExpenseCategoryCreateDocAccess
+  read: ExpenseCategoryReadDocAccess
+  update: ExpenseCategoryUpdateDocAccess
+  delete: ExpenseCategoryDeleteDocAccess
+}
+
+type ExpenseCategoryDocAccessFields {
+  name: ExpenseCategoryDocAccessFields_name
+  icon: ExpenseCategoryDocAccessFields_icon
+  color: ExpenseCategoryDocAccessFields_color
+  updatedAt: ExpenseCategoryDocAccessFields_updatedAt
+  createdAt: ExpenseCategoryDocAccessFields_createdAt
+}
+
+type ExpenseCategoryDocAccessFields_name {
+  create: ExpenseCategoryDocAccessFields_name_Create
+  read: ExpenseCategoryDocAccessFields_name_Read
+  update: ExpenseCategoryDocAccessFields_name_Update
+  delete: ExpenseCategoryDocAccessFields_name_Delete
+}
+
+type ExpenseCategoryDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_icon {
+  create: ExpenseCategoryDocAccessFields_icon_Create
+  read: ExpenseCategoryDocAccessFields_icon_Read
+  update: ExpenseCategoryDocAccessFields_icon_Update
+  delete: ExpenseCategoryDocAccessFields_icon_Delete
+}
+
+type ExpenseCategoryDocAccessFields_icon_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_icon_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_icon_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_icon_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_color {
+  create: ExpenseCategoryDocAccessFields_color_Create
+  read: ExpenseCategoryDocAccessFields_color_Read
+  update: ExpenseCategoryDocAccessFields_color_Update
+  delete: ExpenseCategoryDocAccessFields_color_Delete
+}
+
+type ExpenseCategoryDocAccessFields_color_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_color_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_color_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_color_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_updatedAt {
+  create: ExpenseCategoryDocAccessFields_updatedAt_Create
+  read: ExpenseCategoryDocAccessFields_updatedAt_Read
+  update: ExpenseCategoryDocAccessFields_updatedAt_Update
+  delete: ExpenseCategoryDocAccessFields_updatedAt_Delete
+}
+
+type ExpenseCategoryDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_createdAt {
+  create: ExpenseCategoryDocAccessFields_createdAt_Create
+  read: ExpenseCategoryDocAccessFields_createdAt_Read
+  update: ExpenseCategoryDocAccessFields_createdAt_Update
+  delete: ExpenseCategoryDocAccessFields_createdAt_Delete
+}
+
+type ExpenseCategoryDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseCategoryReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseCategoryUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseCategoryDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseGroups {
+  docs: [ExpenseGroup]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input ExpenseGroup_where {
+  name: ExpenseGroup_name_operator
+  icon: ExpenseGroup_icon_operator
+  updatedAt: ExpenseGroup_updatedAt_operator
+  createdAt: ExpenseGroup_createdAt_operator
+  id: ExpenseGroup_id_operator
+  OR: [ExpenseGroup_where_or]
+  AND: [ExpenseGroup_where_and]
+}
+
+input ExpenseGroup_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input ExpenseGroup_icon_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input ExpenseGroup_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input ExpenseGroup_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input ExpenseGroup_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input ExpenseGroup_where_or {
+  name: ExpenseGroup_name_operator
+  icon: ExpenseGroup_icon_operator
+  updatedAt: ExpenseGroup_updatedAt_operator
+  createdAt: ExpenseGroup_createdAt_operator
+  id: ExpenseGroup_id_operator
+}
+
+input ExpenseGroup_where_and {
+  name: ExpenseGroup_name_operator
+  icon: ExpenseGroup_icon_operator
+  updatedAt: ExpenseGroup_updatedAt_operator
+  createdAt: ExpenseGroup_createdAt_operator
+  id: ExpenseGroup_id_operator
+}
+
+type expense_groupDocAccess {
+  fields: ExpenseGroupDocAccessFields
+  create: ExpenseGroupCreateDocAccess
+  read: ExpenseGroupReadDocAccess
+  update: ExpenseGroupUpdateDocAccess
+  delete: ExpenseGroupDeleteDocAccess
+}
+
+type ExpenseGroupDocAccessFields {
+  name: ExpenseGroupDocAccessFields_name
+  icon: ExpenseGroupDocAccessFields_icon
+  updatedAt: ExpenseGroupDocAccessFields_updatedAt
+  createdAt: ExpenseGroupDocAccessFields_createdAt
+}
+
+type ExpenseGroupDocAccessFields_name {
+  create: ExpenseGroupDocAccessFields_name_Create
+  read: ExpenseGroupDocAccessFields_name_Read
+  update: ExpenseGroupDocAccessFields_name_Update
+  delete: ExpenseGroupDocAccessFields_name_Delete
+}
+
+type ExpenseGroupDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_icon {
+  create: ExpenseGroupDocAccessFields_icon_Create
+  read: ExpenseGroupDocAccessFields_icon_Read
+  update: ExpenseGroupDocAccessFields_icon_Update
+  delete: ExpenseGroupDocAccessFields_icon_Delete
+}
+
+type ExpenseGroupDocAccessFields_icon_Create {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_icon_Read {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_icon_Update {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_icon_Delete {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_updatedAt {
+  create: ExpenseGroupDocAccessFields_updatedAt_Create
+  read: ExpenseGroupDocAccessFields_updatedAt_Read
+  update: ExpenseGroupDocAccessFields_updatedAt_Update
+  delete: ExpenseGroupDocAccessFields_updatedAt_Delete
+}
+
+type ExpenseGroupDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_createdAt {
+  create: ExpenseGroupDocAccessFields_createdAt_Create
+  read: ExpenseGroupDocAccessFields_createdAt_Read
+  update: ExpenseGroupDocAccessFields_createdAt_Update
+  delete: ExpenseGroupDocAccessFields_createdAt_Delete
+}
+
+type ExpenseGroupDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ExpenseGroupDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ExpenseGroupCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseGroupReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseGroupUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseGroupDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Income {
+  id: String
+  name: String
+  amount: Float
+  date: DateTime
+  account: String
+  currency: String
+  valueDate: DateTime
+  notes: String
+  client: Client
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Client {
+  id: String
+  name: String
+  notes: String
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Incomes {
+  docs: [Income]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Income_where {
+  name: Income_name_operator
+  amount: Income_amount_operator
+  date: Income_date_operator
+  account: Income_account_operator
+  currency: Income_currency_operator
+  valueDate: Income_valueDate_operator
+  notes: Income_notes_operator
+  client: Income_client_operator
+  updatedAt: Income_updatedAt_operator
+  createdAt: Income_createdAt_operator
+  id: Income_id_operator
+  OR: [Income_where_or]
+  AND: [Income_where_and]
+}
+
+input Income_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Income_amount_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Income_date_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Income_account_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Income_currency_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Income_valueDate_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Income_notes_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Income_client_operator {
+  equals: String
+  not_equals: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Income_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Income_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Income_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Income_where_or {
+  name: Income_name_operator
+  amount: Income_amount_operator
+  date: Income_date_operator
+  account: Income_account_operator
+  currency: Income_currency_operator
+  valueDate: Income_valueDate_operator
+  notes: Income_notes_operator
+  client: Income_client_operator
+  updatedAt: Income_updatedAt_operator
+  createdAt: Income_createdAt_operator
+  id: Income_id_operator
+}
+
+input Income_where_and {
+  name: Income_name_operator
+  amount: Income_amount_operator
+  date: Income_date_operator
+  account: Income_account_operator
+  currency: Income_currency_operator
+  valueDate: Income_valueDate_operator
+  notes: Income_notes_operator
+  client: Income_client_operator
+  updatedAt: Income_updatedAt_operator
+  createdAt: Income_createdAt_operator
+  id: Income_id_operator
+}
+
+type incomesDocAccess {
+  fields: IncomesDocAccessFields
+  create: IncomesCreateDocAccess
+  read: IncomesReadDocAccess
+  update: IncomesUpdateDocAccess
+  delete: IncomesDeleteDocAccess
+}
+
+type IncomesDocAccessFields {
+  name: IncomesDocAccessFields_name
+  amount: IncomesDocAccessFields_amount
+  date: IncomesDocAccessFields_date
+  account: IncomesDocAccessFields_account
+  currency: IncomesDocAccessFields_currency
+  valueDate: IncomesDocAccessFields_valueDate
+  notes: IncomesDocAccessFields_notes
+  client: IncomesDocAccessFields_client
+  updatedAt: IncomesDocAccessFields_updatedAt
+  createdAt: IncomesDocAccessFields_createdAt
+}
+
+type IncomesDocAccessFields_name {
+  create: IncomesDocAccessFields_name_Create
+  read: IncomesDocAccessFields_name_Read
+  update: IncomesDocAccessFields_name_Update
+  delete: IncomesDocAccessFields_name_Delete
+}
+
+type IncomesDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_amount {
+  create: IncomesDocAccessFields_amount_Create
+  read: IncomesDocAccessFields_amount_Read
+  update: IncomesDocAccessFields_amount_Update
+  delete: IncomesDocAccessFields_amount_Delete
+}
+
+type IncomesDocAccessFields_amount_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_amount_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_amount_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_amount_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_date {
+  create: IncomesDocAccessFields_date_Create
+  read: IncomesDocAccessFields_date_Read
+  update: IncomesDocAccessFields_date_Update
+  delete: IncomesDocAccessFields_date_Delete
+}
+
+type IncomesDocAccessFields_date_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_date_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_date_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_date_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_account {
+  create: IncomesDocAccessFields_account_Create
+  read: IncomesDocAccessFields_account_Read
+  update: IncomesDocAccessFields_account_Update
+  delete: IncomesDocAccessFields_account_Delete
+}
+
+type IncomesDocAccessFields_account_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_account_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_account_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_account_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_currency {
+  create: IncomesDocAccessFields_currency_Create
+  read: IncomesDocAccessFields_currency_Read
+  update: IncomesDocAccessFields_currency_Update
+  delete: IncomesDocAccessFields_currency_Delete
+}
+
+type IncomesDocAccessFields_currency_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_currency_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_currency_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_currency_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_valueDate {
+  create: IncomesDocAccessFields_valueDate_Create
+  read: IncomesDocAccessFields_valueDate_Read
+  update: IncomesDocAccessFields_valueDate_Update
+  delete: IncomesDocAccessFields_valueDate_Delete
+}
+
+type IncomesDocAccessFields_valueDate_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_valueDate_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_valueDate_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_valueDate_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_notes {
+  create: IncomesDocAccessFields_notes_Create
+  read: IncomesDocAccessFields_notes_Read
+  update: IncomesDocAccessFields_notes_Update
+  delete: IncomesDocAccessFields_notes_Delete
+}
+
+type IncomesDocAccessFields_notes_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_notes_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_notes_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_notes_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_client {
+  create: IncomesDocAccessFields_client_Create
+  read: IncomesDocAccessFields_client_Read
+  update: IncomesDocAccessFields_client_Update
+  delete: IncomesDocAccessFields_client_Delete
+}
+
+type IncomesDocAccessFields_client_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_client_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_client_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_client_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_updatedAt {
+  create: IncomesDocAccessFields_updatedAt_Create
+  read: IncomesDocAccessFields_updatedAt_Read
+  update: IncomesDocAccessFields_updatedAt_Update
+  delete: IncomesDocAccessFields_updatedAt_Delete
+}
+
+type IncomesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_createdAt {
+  create: IncomesDocAccessFields_createdAt_Create
+  read: IncomesDocAccessFields_createdAt_Read
+  update: IncomesDocAccessFields_createdAt_Update
+  delete: IncomesDocAccessFields_createdAt_Delete
+}
+
+type IncomesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type IncomesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type IncomesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type IncomesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type IncomesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type IncomesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Clients {
+  docs: [Client]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Client_where {
+  name: Client_name_operator
+  notes: Client_notes_operator
+  updatedAt: Client_updatedAt_operator
+  createdAt: Client_createdAt_operator
+  id: Client_id_operator
+  OR: [Client_where_or]
+  AND: [Client_where_and]
+}
+
+input Client_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Client_notes_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Client_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Client_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Client_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Client_where_or {
+  name: Client_name_operator
+  notes: Client_notes_operator
+  updatedAt: Client_updatedAt_operator
+  createdAt: Client_createdAt_operator
+  id: Client_id_operator
+}
+
+input Client_where_and {
+  name: Client_name_operator
+  notes: Client_notes_operator
+  updatedAt: Client_updatedAt_operator
+  createdAt: Client_createdAt_operator
+  id: Client_id_operator
+}
+
+type clientsDocAccess {
+  fields: ClientsDocAccessFields
+  create: ClientsCreateDocAccess
+  read: ClientsReadDocAccess
+  update: ClientsUpdateDocAccess
+  delete: ClientsDeleteDocAccess
+}
+
+type ClientsDocAccessFields {
+  name: ClientsDocAccessFields_name
+  notes: ClientsDocAccessFields_notes
+  updatedAt: ClientsDocAccessFields_updatedAt
+  createdAt: ClientsDocAccessFields_createdAt
+}
+
+type ClientsDocAccessFields_name {
+  create: ClientsDocAccessFields_name_Create
+  read: ClientsDocAccessFields_name_Read
+  update: ClientsDocAccessFields_name_Update
+  delete: ClientsDocAccessFields_name_Delete
+}
+
+type ClientsDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_notes {
+  create: ClientsDocAccessFields_notes_Create
+  read: ClientsDocAccessFields_notes_Read
+  update: ClientsDocAccessFields_notes_Update
+  delete: ClientsDocAccessFields_notes_Delete
+}
+
+type ClientsDocAccessFields_notes_Create {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_notes_Read {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_notes_Update {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_notes_Delete {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_updatedAt {
+  create: ClientsDocAccessFields_updatedAt_Create
+  read: ClientsDocAccessFields_updatedAt_Read
+  update: ClientsDocAccessFields_updatedAt_Update
+  delete: ClientsDocAccessFields_updatedAt_Delete
+}
+
+type ClientsDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_createdAt {
+  create: ClientsDocAccessFields_createdAt_Create
+  read: ClientsDocAccessFields_createdAt_Read
+  update: ClientsDocAccessFields_createdAt_Update
+  delete: ClientsDocAccessFields_createdAt_Delete
+}
+
+type ClientsDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ClientsDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ClientsCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ClientsReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ClientsUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ClientsDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Score {
+  id: String
+  title: String
+  content: String
+  date: DateTime
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Scores {
+  docs: [Score]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Score_where {
+  title: Score_title_operator
+  content: Score_content_operator
+  date: Score_date_operator
+  updatedAt: Score_updatedAt_operator
+  createdAt: Score_createdAt_operator
+  id: Score_id_operator
+  OR: [Score_where_or]
+  AND: [Score_where_and]
+}
+
+input Score_title_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Score_content_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input Score_date_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Score_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Score_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Score_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Score_where_or {
+  title: Score_title_operator
+  content: Score_content_operator
+  date: Score_date_operator
+  updatedAt: Score_updatedAt_operator
+  createdAt: Score_createdAt_operator
+  id: Score_id_operator
+}
+
+input Score_where_and {
+  title: Score_title_operator
+  content: Score_content_operator
+  date: Score_date_operator
+  updatedAt: Score_updatedAt_operator
+  createdAt: Score_createdAt_operator
+  id: Score_id_operator
+}
+
+type scoresDocAccess {
+  fields: ScoresDocAccessFields
+  create: ScoresCreateDocAccess
+  read: ScoresReadDocAccess
+  update: ScoresUpdateDocAccess
+  delete: ScoresDeleteDocAccess
+}
+
+type ScoresDocAccessFields {
+  title: ScoresDocAccessFields_title
+  content: ScoresDocAccessFields_content
+  date: ScoresDocAccessFields_date
+  updatedAt: ScoresDocAccessFields_updatedAt
+  createdAt: ScoresDocAccessFields_createdAt
+}
+
+type ScoresDocAccessFields_title {
+  create: ScoresDocAccessFields_title_Create
+  read: ScoresDocAccessFields_title_Read
+  update: ScoresDocAccessFields_title_Update
+  delete: ScoresDocAccessFields_title_Delete
+}
+
+type ScoresDocAccessFields_title_Create {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_title_Read {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_title_Update {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_title_Delete {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_content {
+  create: ScoresDocAccessFields_content_Create
+  read: ScoresDocAccessFields_content_Read
+  update: ScoresDocAccessFields_content_Update
+  delete: ScoresDocAccessFields_content_Delete
+}
+
+type ScoresDocAccessFields_content_Create {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_content_Read {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_content_Update {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_content_Delete {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_date {
+  create: ScoresDocAccessFields_date_Create
+  read: ScoresDocAccessFields_date_Read
+  update: ScoresDocAccessFields_date_Update
+  delete: ScoresDocAccessFields_date_Delete
+}
+
+type ScoresDocAccessFields_date_Create {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_date_Read {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_date_Update {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_date_Delete {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_updatedAt {
+  create: ScoresDocAccessFields_updatedAt_Create
+  read: ScoresDocAccessFields_updatedAt_Read
+  update: ScoresDocAccessFields_updatedAt_Update
+  delete: ScoresDocAccessFields_updatedAt_Delete
+}
+
+type ScoresDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_createdAt {
+  create: ScoresDocAccessFields_createdAt_Create
+  read: ScoresDocAccessFields_createdAt_Read
+  update: ScoresDocAccessFields_createdAt_Update
+  delete: ScoresDocAccessFields_createdAt_Delete
+}
+
+type ScoresDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ScoresDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ScoresCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ScoresReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ScoresUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ScoresDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Bloque {
+  id: String
+  content(depth: Int): JSON!
+  connections: [Conexione!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Conexione {
+  id: String
+  content(depth: Int): JSON!
+  from: Bloque
+  to: Bloque
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Bloques {
+  docs: [Bloque]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Bloque_where {
+  content: Bloque_content_operator
+  connections: Bloque_connections_operator
+  updatedAt: Bloque_updatedAt_operator
+  createdAt: Bloque_createdAt_operator
+  id: Bloque_id_operator
+  OR: [Bloque_where_or]
+  AND: [Bloque_where_and]
+}
+
+input Bloque_content_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+}
+
+input Bloque_connections_operator {
+  equals: String
+  not_equals: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Bloque_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Bloque_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Bloque_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Bloque_where_or {
+  content: Bloque_content_operator
+  connections: Bloque_connections_operator
+  updatedAt: Bloque_updatedAt_operator
+  createdAt: Bloque_createdAt_operator
+  id: Bloque_id_operator
+}
+
+input Bloque_where_and {
+  content: Bloque_content_operator
+  connections: Bloque_connections_operator
+  updatedAt: Bloque_updatedAt_operator
+  createdAt: Bloque_createdAt_operator
+  id: Bloque_id_operator
+}
+
+type bloquesDocAccess {
+  fields: BloquesDocAccessFields
+  create: BloquesCreateDocAccess
+  read: BloquesReadDocAccess
+  update: BloquesUpdateDocAccess
+  delete: BloquesDeleteDocAccess
+}
+
+type BloquesDocAccessFields {
+  content: BloquesDocAccessFields_content
+  connections: BloquesDocAccessFields_connections
+  updatedAt: BloquesDocAccessFields_updatedAt
+  createdAt: BloquesDocAccessFields_createdAt
+}
+
+type BloquesDocAccessFields_content {
+  create: BloquesDocAccessFields_content_Create
+  read: BloquesDocAccessFields_content_Read
+  update: BloquesDocAccessFields_content_Update
+  delete: BloquesDocAccessFields_content_Delete
+}
+
+type BloquesDocAccessFields_content_Create {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_content_Read {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_content_Update {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_content_Delete {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_connections {
+  create: BloquesDocAccessFields_connections_Create
+  read: BloquesDocAccessFields_connections_Read
+  update: BloquesDocAccessFields_connections_Update
+  delete: BloquesDocAccessFields_connections_Delete
+}
+
+type BloquesDocAccessFields_connections_Create {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_connections_Read {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_connections_Update {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_connections_Delete {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_updatedAt {
+  create: BloquesDocAccessFields_updatedAt_Create
+  read: BloquesDocAccessFields_updatedAt_Read
+  update: BloquesDocAccessFields_updatedAt_Update
+  delete: BloquesDocAccessFields_updatedAt_Delete
+}
+
+type BloquesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_createdAt {
+  create: BloquesDocAccessFields_createdAt_Create
+  read: BloquesDocAccessFields_createdAt_Read
+  update: BloquesDocAccessFields_createdAt_Update
+  delete: BloquesDocAccessFields_createdAt_Delete
+}
+
+type BloquesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type BloquesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type BloquesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type BloquesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type BloquesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type BloquesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Conexiones {
+  docs: [Conexione]
+  totalDocs: Int
+  offset: Int
+  limit: Int
+  totalPages: Int
+  page: Int
+  pagingCounter: Int
+  hasPrevPage: Boolean
+  hasNextPage: Boolean
+  prevPage: Int
+  nextPage: Int
+}
+
+input Conexione_where {
+  content: Conexione_content_operator
+  from: Conexione_from_operator
+  to: Conexione_to_operator
+  updatedAt: Conexione_updatedAt_operator
+  createdAt: Conexione_createdAt_operator
+  id: Conexione_id_operator
+  OR: [Conexione_where_or]
+  AND: [Conexione_where_and]
+}
+
+input Conexione_content_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+}
+
+input Conexione_from_operator {
+  equals: String
+  not_equals: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Conexione_to_operator {
+  equals: String
+  not_equals: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Conexione_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Conexione_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Conexione_id_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Conexione_where_or {
+  content: Conexione_content_operator
+  from: Conexione_from_operator
+  to: Conexione_to_operator
+  updatedAt: Conexione_updatedAt_operator
+  createdAt: Conexione_createdAt_operator
+  id: Conexione_id_operator
+}
+
+input Conexione_where_and {
+  content: Conexione_content_operator
+  from: Conexione_from_operator
+  to: Conexione_to_operator
+  updatedAt: Conexione_updatedAt_operator
+  createdAt: Conexione_createdAt_operator
+  id: Conexione_id_operator
+}
+
+type conexionesDocAccess {
+  fields: ConexionesDocAccessFields
+  create: ConexionesCreateDocAccess
+  read: ConexionesReadDocAccess
+  update: ConexionesUpdateDocAccess
+  delete: ConexionesDeleteDocAccess
+}
+
+type ConexionesDocAccessFields {
+  content: ConexionesDocAccessFields_content
+  from: ConexionesDocAccessFields_from
+  to: ConexionesDocAccessFields_to
+  updatedAt: ConexionesDocAccessFields_updatedAt
+  createdAt: ConexionesDocAccessFields_createdAt
+}
+
+type ConexionesDocAccessFields_content {
+  create: ConexionesDocAccessFields_content_Create
+  read: ConexionesDocAccessFields_content_Read
+  update: ConexionesDocAccessFields_content_Update
+  delete: ConexionesDocAccessFields_content_Delete
+}
+
+type ConexionesDocAccessFields_content_Create {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_content_Read {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_content_Update {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_content_Delete {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_from {
+  create: ConexionesDocAccessFields_from_Create
+  read: ConexionesDocAccessFields_from_Read
+  update: ConexionesDocAccessFields_from_Update
+  delete: ConexionesDocAccessFields_from_Delete
+}
+
+type ConexionesDocAccessFields_from_Create {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_from_Read {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_from_Update {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_from_Delete {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_to {
+  create: ConexionesDocAccessFields_to_Create
+  read: ConexionesDocAccessFields_to_Read
+  update: ConexionesDocAccessFields_to_Update
+  delete: ConexionesDocAccessFields_to_Delete
+}
+
+type ConexionesDocAccessFields_to_Create {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_to_Read {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_to_Update {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_to_Delete {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_updatedAt {
+  create: ConexionesDocAccessFields_updatedAt_Create
+  read: ConexionesDocAccessFields_updatedAt_Read
+  update: ConexionesDocAccessFields_updatedAt_Update
+  delete: ConexionesDocAccessFields_updatedAt_Delete
+}
+
+type ConexionesDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_createdAt {
+  create: ConexionesDocAccessFields_createdAt_Create
+  read: ConexionesDocAccessFields_createdAt_Read
+  update: ConexionesDocAccessFields_createdAt_Update
+  delete: ConexionesDocAccessFields_createdAt_Delete
+}
+
+type ConexionesDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ConexionesDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ConexionesCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConexionesReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConexionesUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConexionesDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Preference {
+  key: String!
+  value: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Access {
+  canAccessAdmin: Boolean!
+  todos: todosAccess
+  users: usersAccess
+  expenses: expensesAccess
+  expense_category: expense_categoryAccess
+  expense_group: expense_groupAccess
+  incomes: incomesAccess
+  clients: clientsAccess
+  scores: scoresAccess
+  bloques: bloquesAccess
+  conexiones: conexionesAccess
+}
+
+type todosAccess {
+  fields: TodosFields
+  create: TodosCreateAccess
+  read: TodosReadAccess
+  update: TodosUpdateAccess
+  delete: TodosDeleteAccess
+}
+
+type TodosFields {
+  listName: TodosFields_listName
+  tasks: TodosFields_tasks
+  updatedAt: TodosFields_updatedAt
+  createdAt: TodosFields_createdAt
+}
+
+type TodosFields_listName {
+  create: TodosFields_listName_Create
+  read: TodosFields_listName_Read
+  update: TodosFields_listName_Update
+  delete: TodosFields_listName_Delete
+}
+
+type TodosFields_listName_Create {
+  permission: Boolean!
+}
+
+type TodosFields_listName_Read {
+  permission: Boolean!
+}
+
+type TodosFields_listName_Update {
+  permission: Boolean!
+}
+
+type TodosFields_listName_Delete {
+  permission: Boolean!
+}
+
+type TodosFields_tasks {
+  create: TodosFields_tasks_Create
+  read: TodosFields_tasks_Read
+  update: TodosFields_tasks_Update
+  delete: TodosFields_tasks_Delete
+  fields: TodosFields_tasks_Fields
+}
+
+type TodosFields_tasks_Create {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_Read {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_Update {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_Delete {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_Fields {
+  name: TodosFields_tasks_name
+  complete: TodosFields_tasks_complete
+  id: TodosFields_tasks_id
+}
+
+type TodosFields_tasks_name {
+  create: TodosFields_tasks_name_Create
+  read: TodosFields_tasks_name_Read
+  update: TodosFields_tasks_name_Update
+  delete: TodosFields_tasks_name_Delete
+}
+
+type TodosFields_tasks_name_Create {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_name_Read {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_name_Update {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_name_Delete {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_complete {
+  create: TodosFields_tasks_complete_Create
+  read: TodosFields_tasks_complete_Read
+  update: TodosFields_tasks_complete_Update
+  delete: TodosFields_tasks_complete_Delete
+}
+
+type TodosFields_tasks_complete_Create {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_complete_Read {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_complete_Update {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_complete_Delete {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_id {
+  create: TodosFields_tasks_id_Create
+  read: TodosFields_tasks_id_Read
+  update: TodosFields_tasks_id_Update
+  delete: TodosFields_tasks_id_Delete
+}
+
+type TodosFields_tasks_id_Create {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_id_Read {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_id_Update {
+  permission: Boolean!
+}
+
+type TodosFields_tasks_id_Delete {
+  permission: Boolean!
+}
+
+type TodosFields_updatedAt {
+  create: TodosFields_updatedAt_Create
+  read: TodosFields_updatedAt_Read
+  update: TodosFields_updatedAt_Update
+  delete: TodosFields_updatedAt_Delete
+}
+
+type TodosFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type TodosFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type TodosFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type TodosFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type TodosFields_createdAt {
+  create: TodosFields_createdAt_Create
+  read: TodosFields_createdAt_Read
+  update: TodosFields_createdAt_Update
+  delete: TodosFields_createdAt_Delete
+}
+
+type TodosFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type TodosFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type TodosFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type TodosFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type TodosCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type TodosReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type TodosUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type TodosDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type usersAccess {
+  fields: UsersFields
+  create: UsersCreateAccess
+  read: UsersReadAccess
+  update: UsersUpdateAccess
+  delete: UsersDeleteAccess
+  unlock: UsersUnlockAccess
+}
+
+type UsersFields {
+  updatedAt: UsersFields_updatedAt
+  createdAt: UsersFields_createdAt
+  email: UsersFields_email
+  password: UsersFields_password
+}
+
+type UsersFields_updatedAt {
+  create: UsersFields_updatedAt_Create
+  read: UsersFields_updatedAt_Read
+  update: UsersFields_updatedAt_Update
+  delete: UsersFields_updatedAt_Delete
+}
+
+type UsersFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type UsersFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type UsersFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type UsersFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_createdAt {
+  create: UsersFields_createdAt_Create
+  read: UsersFields_createdAt_Read
+  update: UsersFields_createdAt_Update
+  delete: UsersFields_createdAt_Delete
+}
+
+type UsersFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type UsersFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type UsersFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type UsersFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_email {
+  create: UsersFields_email_Create
+  read: UsersFields_email_Read
+  update: UsersFields_email_Update
+  delete: UsersFields_email_Delete
+}
+
+type UsersFields_email_Create {
+  permission: Boolean!
+}
+
+type UsersFields_email_Read {
+  permission: Boolean!
+}
+
+type UsersFields_email_Update {
+  permission: Boolean!
+}
+
+type UsersFields_email_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_password {
+  create: UsersFields_password_Create
+  read: UsersFields_password_Read
+  update: UsersFields_password_Update
+  delete: UsersFields_password_Delete
+}
+
+type UsersFields_password_Create {
+  permission: Boolean!
+}
+
+type UsersFields_password_Read {
+  permission: Boolean!
+}
+
+type UsersFields_password_Update {
+  permission: Boolean!
+}
+
+type UsersFields_password_Delete {
+  permission: Boolean!
+}
+
+type UsersCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUnlockAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type expensesAccess {
+  fields: ExpensesFields
+  create: ExpensesCreateAccess
+  read: ExpensesReadAccess
+  update: ExpensesUpdateAccess
+  delete: ExpensesDeleteAccess
+}
+
+type ExpensesFields {
+  name: ExpensesFields_name
+  amount: ExpensesFields_amount
+  balance: ExpensesFields_balance
+  date: ExpensesFields_date
+  account: ExpensesFields_account
+  currency: ExpensesFields_currency
+  valueDate: ExpensesFields_valueDate
+  notes: ExpensesFields_notes
+  category: ExpensesFields_category
+  group: ExpensesFields_group
+  updatedAt: ExpensesFields_updatedAt
+  createdAt: ExpensesFields_createdAt
+}
+
+type ExpensesFields_name {
+  create: ExpensesFields_name_Create
+  read: ExpensesFields_name_Read
+  update: ExpensesFields_name_Update
+  delete: ExpensesFields_name_Delete
+}
+
+type ExpensesFields_name_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_name_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_name_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_name_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_amount {
+  create: ExpensesFields_amount_Create
+  read: ExpensesFields_amount_Read
+  update: ExpensesFields_amount_Update
+  delete: ExpensesFields_amount_Delete
+}
+
+type ExpensesFields_amount_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_amount_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_amount_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_amount_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_balance {
+  create: ExpensesFields_balance_Create
+  read: ExpensesFields_balance_Read
+  update: ExpensesFields_balance_Update
+  delete: ExpensesFields_balance_Delete
+}
+
+type ExpensesFields_balance_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_balance_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_balance_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_balance_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_date {
+  create: ExpensesFields_date_Create
+  read: ExpensesFields_date_Read
+  update: ExpensesFields_date_Update
+  delete: ExpensesFields_date_Delete
+}
+
+type ExpensesFields_date_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_date_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_date_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_date_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_account {
+  create: ExpensesFields_account_Create
+  read: ExpensesFields_account_Read
+  update: ExpensesFields_account_Update
+  delete: ExpensesFields_account_Delete
+}
+
+type ExpensesFields_account_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_account_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_account_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_account_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_currency {
+  create: ExpensesFields_currency_Create
+  read: ExpensesFields_currency_Read
+  update: ExpensesFields_currency_Update
+  delete: ExpensesFields_currency_Delete
+}
+
+type ExpensesFields_currency_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_currency_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_currency_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_currency_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_valueDate {
+  create: ExpensesFields_valueDate_Create
+  read: ExpensesFields_valueDate_Read
+  update: ExpensesFields_valueDate_Update
+  delete: ExpensesFields_valueDate_Delete
+}
+
+type ExpensesFields_valueDate_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_valueDate_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_valueDate_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_valueDate_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_notes {
+  create: ExpensesFields_notes_Create
+  read: ExpensesFields_notes_Read
+  update: ExpensesFields_notes_Update
+  delete: ExpensesFields_notes_Delete
+}
+
+type ExpensesFields_notes_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_notes_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_notes_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_notes_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_category {
+  create: ExpensesFields_category_Create
+  read: ExpensesFields_category_Read
+  update: ExpensesFields_category_Update
+  delete: ExpensesFields_category_Delete
+}
+
+type ExpensesFields_category_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_category_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_category_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_category_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_group {
+  create: ExpensesFields_group_Create
+  read: ExpensesFields_group_Read
+  update: ExpensesFields_group_Update
+  delete: ExpensesFields_group_Delete
+}
+
+type ExpensesFields_group_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_group_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_group_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_group_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_updatedAt {
+  create: ExpensesFields_updatedAt_Create
+  read: ExpensesFields_updatedAt_Read
+  update: ExpensesFields_updatedAt_Update
+  delete: ExpensesFields_updatedAt_Delete
+}
+
+type ExpensesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ExpensesFields_createdAt {
+  create: ExpensesFields_createdAt_Create
+  read: ExpensesFields_createdAt_Read
+  update: ExpensesFields_createdAt_Update
+  delete: ExpensesFields_createdAt_Delete
+}
+
+type ExpensesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ExpensesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ExpensesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ExpensesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ExpensesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpensesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpensesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpensesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type expense_categoryAccess {
+  fields: ExpenseCategoryFields
+  create: ExpenseCategoryCreateAccess
+  read: ExpenseCategoryReadAccess
+  update: ExpenseCategoryUpdateAccess
+  delete: ExpenseCategoryDeleteAccess
+}
+
+type ExpenseCategoryFields {
+  name: ExpenseCategoryFields_name
+  icon: ExpenseCategoryFields_icon
+  color: ExpenseCategoryFields_color
+  updatedAt: ExpenseCategoryFields_updatedAt
+  createdAt: ExpenseCategoryFields_createdAt
+}
+
+type ExpenseCategoryFields_name {
+  create: ExpenseCategoryFields_name_Create
+  read: ExpenseCategoryFields_name_Read
+  update: ExpenseCategoryFields_name_Update
+  delete: ExpenseCategoryFields_name_Delete
+}
+
+type ExpenseCategoryFields_name_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_name_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_name_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_name_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_icon {
+  create: ExpenseCategoryFields_icon_Create
+  read: ExpenseCategoryFields_icon_Read
+  update: ExpenseCategoryFields_icon_Update
+  delete: ExpenseCategoryFields_icon_Delete
+}
+
+type ExpenseCategoryFields_icon_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_icon_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_icon_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_icon_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_color {
+  create: ExpenseCategoryFields_color_Create
+  read: ExpenseCategoryFields_color_Read
+  update: ExpenseCategoryFields_color_Update
+  delete: ExpenseCategoryFields_color_Delete
+}
+
+type ExpenseCategoryFields_color_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_color_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_color_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_color_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_updatedAt {
+  create: ExpenseCategoryFields_updatedAt_Create
+  read: ExpenseCategoryFields_updatedAt_Read
+  update: ExpenseCategoryFields_updatedAt_Update
+  delete: ExpenseCategoryFields_updatedAt_Delete
+}
+
+type ExpenseCategoryFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_createdAt {
+  create: ExpenseCategoryFields_createdAt_Create
+  read: ExpenseCategoryFields_createdAt_Read
+  update: ExpenseCategoryFields_createdAt_Update
+  delete: ExpenseCategoryFields_createdAt_Delete
+}
+
+type ExpenseCategoryFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ExpenseCategoryFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ExpenseCategoryCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseCategoryReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseCategoryUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseCategoryDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type expense_groupAccess {
+  fields: ExpenseGroupFields
+  create: ExpenseGroupCreateAccess
+  read: ExpenseGroupReadAccess
+  update: ExpenseGroupUpdateAccess
+  delete: ExpenseGroupDeleteAccess
+}
+
+type ExpenseGroupFields {
+  name: ExpenseGroupFields_name
+  icon: ExpenseGroupFields_icon
+  updatedAt: ExpenseGroupFields_updatedAt
+  createdAt: ExpenseGroupFields_createdAt
+}
+
+type ExpenseGroupFields_name {
+  create: ExpenseGroupFields_name_Create
+  read: ExpenseGroupFields_name_Read
+  update: ExpenseGroupFields_name_Update
+  delete: ExpenseGroupFields_name_Delete
+}
+
+type ExpenseGroupFields_name_Create {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_name_Read {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_name_Update {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_name_Delete {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_icon {
+  create: ExpenseGroupFields_icon_Create
+  read: ExpenseGroupFields_icon_Read
+  update: ExpenseGroupFields_icon_Update
+  delete: ExpenseGroupFields_icon_Delete
+}
+
+type ExpenseGroupFields_icon_Create {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_icon_Read {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_icon_Update {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_icon_Delete {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_updatedAt {
+  create: ExpenseGroupFields_updatedAt_Create
+  read: ExpenseGroupFields_updatedAt_Read
+  update: ExpenseGroupFields_updatedAt_Update
+  delete: ExpenseGroupFields_updatedAt_Delete
+}
+
+type ExpenseGroupFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_createdAt {
+  create: ExpenseGroupFields_createdAt_Create
+  read: ExpenseGroupFields_createdAt_Read
+  update: ExpenseGroupFields_createdAt_Update
+  delete: ExpenseGroupFields_createdAt_Delete
+}
+
+type ExpenseGroupFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ExpenseGroupFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ExpenseGroupCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseGroupReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseGroupUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ExpenseGroupDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type incomesAccess {
+  fields: IncomesFields
+  create: IncomesCreateAccess
+  read: IncomesReadAccess
+  update: IncomesUpdateAccess
+  delete: IncomesDeleteAccess
+}
+
+type IncomesFields {
+  name: IncomesFields_name
+  amount: IncomesFields_amount
+  date: IncomesFields_date
+  account: IncomesFields_account
+  currency: IncomesFields_currency
+  valueDate: IncomesFields_valueDate
+  notes: IncomesFields_notes
+  client: IncomesFields_client
+  updatedAt: IncomesFields_updatedAt
+  createdAt: IncomesFields_createdAt
+}
+
+type IncomesFields_name {
+  create: IncomesFields_name_Create
+  read: IncomesFields_name_Read
+  update: IncomesFields_name_Update
+  delete: IncomesFields_name_Delete
+}
+
+type IncomesFields_name_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_name_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_name_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_name_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_amount {
+  create: IncomesFields_amount_Create
+  read: IncomesFields_amount_Read
+  update: IncomesFields_amount_Update
+  delete: IncomesFields_amount_Delete
+}
+
+type IncomesFields_amount_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_amount_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_amount_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_amount_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_date {
+  create: IncomesFields_date_Create
+  read: IncomesFields_date_Read
+  update: IncomesFields_date_Update
+  delete: IncomesFields_date_Delete
+}
+
+type IncomesFields_date_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_date_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_date_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_date_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_account {
+  create: IncomesFields_account_Create
+  read: IncomesFields_account_Read
+  update: IncomesFields_account_Update
+  delete: IncomesFields_account_Delete
+}
+
+type IncomesFields_account_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_account_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_account_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_account_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_currency {
+  create: IncomesFields_currency_Create
+  read: IncomesFields_currency_Read
+  update: IncomesFields_currency_Update
+  delete: IncomesFields_currency_Delete
+}
+
+type IncomesFields_currency_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_currency_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_currency_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_currency_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_valueDate {
+  create: IncomesFields_valueDate_Create
+  read: IncomesFields_valueDate_Read
+  update: IncomesFields_valueDate_Update
+  delete: IncomesFields_valueDate_Delete
+}
+
+type IncomesFields_valueDate_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_valueDate_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_valueDate_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_valueDate_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_notes {
+  create: IncomesFields_notes_Create
+  read: IncomesFields_notes_Read
+  update: IncomesFields_notes_Update
+  delete: IncomesFields_notes_Delete
+}
+
+type IncomesFields_notes_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_notes_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_notes_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_notes_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_client {
+  create: IncomesFields_client_Create
+  read: IncomesFields_client_Read
+  update: IncomesFields_client_Update
+  delete: IncomesFields_client_Delete
+}
+
+type IncomesFields_client_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_client_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_client_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_client_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_updatedAt {
+  create: IncomesFields_updatedAt_Create
+  read: IncomesFields_updatedAt_Read
+  update: IncomesFields_updatedAt_Update
+  delete: IncomesFields_updatedAt_Delete
+}
+
+type IncomesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type IncomesFields_createdAt {
+  create: IncomesFields_createdAt_Create
+  read: IncomesFields_createdAt_Read
+  update: IncomesFields_createdAt_Update
+  delete: IncomesFields_createdAt_Delete
+}
+
+type IncomesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type IncomesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type IncomesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type IncomesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type IncomesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type IncomesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type IncomesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type IncomesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type clientsAccess {
+  fields: ClientsFields
+  create: ClientsCreateAccess
+  read: ClientsReadAccess
+  update: ClientsUpdateAccess
+  delete: ClientsDeleteAccess
+}
+
+type ClientsFields {
+  name: ClientsFields_name
+  notes: ClientsFields_notes
+  updatedAt: ClientsFields_updatedAt
+  createdAt: ClientsFields_createdAt
+}
+
+type ClientsFields_name {
+  create: ClientsFields_name_Create
+  read: ClientsFields_name_Read
+  update: ClientsFields_name_Update
+  delete: ClientsFields_name_Delete
+}
+
+type ClientsFields_name_Create {
+  permission: Boolean!
+}
+
+type ClientsFields_name_Read {
+  permission: Boolean!
+}
+
+type ClientsFields_name_Update {
+  permission: Boolean!
+}
+
+type ClientsFields_name_Delete {
+  permission: Boolean!
+}
+
+type ClientsFields_notes {
+  create: ClientsFields_notes_Create
+  read: ClientsFields_notes_Read
+  update: ClientsFields_notes_Update
+  delete: ClientsFields_notes_Delete
+}
+
+type ClientsFields_notes_Create {
+  permission: Boolean!
+}
+
+type ClientsFields_notes_Read {
+  permission: Boolean!
+}
+
+type ClientsFields_notes_Update {
+  permission: Boolean!
+}
+
+type ClientsFields_notes_Delete {
+  permission: Boolean!
+}
+
+type ClientsFields_updatedAt {
+  create: ClientsFields_updatedAt_Create
+  read: ClientsFields_updatedAt_Read
+  update: ClientsFields_updatedAt_Update
+  delete: ClientsFields_updatedAt_Delete
+}
+
+type ClientsFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ClientsFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ClientsFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ClientsFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ClientsFields_createdAt {
+  create: ClientsFields_createdAt_Create
+  read: ClientsFields_createdAt_Read
+  update: ClientsFields_createdAt_Update
+  delete: ClientsFields_createdAt_Delete
+}
+
+type ClientsFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ClientsFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ClientsFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ClientsFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ClientsCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ClientsReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ClientsUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ClientsDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type scoresAccess {
+  fields: ScoresFields
+  create: ScoresCreateAccess
+  read: ScoresReadAccess
+  update: ScoresUpdateAccess
+  delete: ScoresDeleteAccess
+}
+
+type ScoresFields {
+  title: ScoresFields_title
+  content: ScoresFields_content
+  date: ScoresFields_date
+  updatedAt: ScoresFields_updatedAt
+  createdAt: ScoresFields_createdAt
+}
+
+type ScoresFields_title {
+  create: ScoresFields_title_Create
+  read: ScoresFields_title_Read
+  update: ScoresFields_title_Update
+  delete: ScoresFields_title_Delete
+}
+
+type ScoresFields_title_Create {
+  permission: Boolean!
+}
+
+type ScoresFields_title_Read {
+  permission: Boolean!
+}
+
+type ScoresFields_title_Update {
+  permission: Boolean!
+}
+
+type ScoresFields_title_Delete {
+  permission: Boolean!
+}
+
+type ScoresFields_content {
+  create: ScoresFields_content_Create
+  read: ScoresFields_content_Read
+  update: ScoresFields_content_Update
+  delete: ScoresFields_content_Delete
+}
+
+type ScoresFields_content_Create {
+  permission: Boolean!
+}
+
+type ScoresFields_content_Read {
+  permission: Boolean!
+}
+
+type ScoresFields_content_Update {
+  permission: Boolean!
+}
+
+type ScoresFields_content_Delete {
+  permission: Boolean!
+}
+
+type ScoresFields_date {
+  create: ScoresFields_date_Create
+  read: ScoresFields_date_Read
+  update: ScoresFields_date_Update
+  delete: ScoresFields_date_Delete
+}
+
+type ScoresFields_date_Create {
+  permission: Boolean!
+}
+
+type ScoresFields_date_Read {
+  permission: Boolean!
+}
+
+type ScoresFields_date_Update {
+  permission: Boolean!
+}
+
+type ScoresFields_date_Delete {
+  permission: Boolean!
+}
+
+type ScoresFields_updatedAt {
+  create: ScoresFields_updatedAt_Create
+  read: ScoresFields_updatedAt_Read
+  update: ScoresFields_updatedAt_Update
+  delete: ScoresFields_updatedAt_Delete
+}
+
+type ScoresFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ScoresFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ScoresFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ScoresFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ScoresFields_createdAt {
+  create: ScoresFields_createdAt_Create
+  read: ScoresFields_createdAt_Read
+  update: ScoresFields_createdAt_Update
+  delete: ScoresFields_createdAt_Delete
+}
+
+type ScoresFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ScoresFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ScoresFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ScoresFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ScoresCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ScoresReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ScoresUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ScoresDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type bloquesAccess {
+  fields: BloquesFields
+  create: BloquesCreateAccess
+  read: BloquesReadAccess
+  update: BloquesUpdateAccess
+  delete: BloquesDeleteAccess
+}
+
+type BloquesFields {
+  content: BloquesFields_content
+  connections: BloquesFields_connections
+  updatedAt: BloquesFields_updatedAt
+  createdAt: BloquesFields_createdAt
+}
+
+type BloquesFields_content {
+  create: BloquesFields_content_Create
+  read: BloquesFields_content_Read
+  update: BloquesFields_content_Update
+  delete: BloquesFields_content_Delete
+}
+
+type BloquesFields_content_Create {
+  permission: Boolean!
+}
+
+type BloquesFields_content_Read {
+  permission: Boolean!
+}
+
+type BloquesFields_content_Update {
+  permission: Boolean!
+}
+
+type BloquesFields_content_Delete {
+  permission: Boolean!
+}
+
+type BloquesFields_connections {
+  create: BloquesFields_connections_Create
+  read: BloquesFields_connections_Read
+  update: BloquesFields_connections_Update
+  delete: BloquesFields_connections_Delete
+}
+
+type BloquesFields_connections_Create {
+  permission: Boolean!
+}
+
+type BloquesFields_connections_Read {
+  permission: Boolean!
+}
+
+type BloquesFields_connections_Update {
+  permission: Boolean!
+}
+
+type BloquesFields_connections_Delete {
+  permission: Boolean!
+}
+
+type BloquesFields_updatedAt {
+  create: BloquesFields_updatedAt_Create
+  read: BloquesFields_updatedAt_Read
+  update: BloquesFields_updatedAt_Update
+  delete: BloquesFields_updatedAt_Delete
+}
+
+type BloquesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type BloquesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type BloquesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type BloquesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type BloquesFields_createdAt {
+  create: BloquesFields_createdAt_Create
+  read: BloquesFields_createdAt_Read
+  update: BloquesFields_createdAt_Update
+  delete: BloquesFields_createdAt_Delete
+}
+
+type BloquesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type BloquesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type BloquesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type BloquesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type BloquesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type BloquesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type BloquesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type BloquesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type conexionesAccess {
+  fields: ConexionesFields
+  create: ConexionesCreateAccess
+  read: ConexionesReadAccess
+  update: ConexionesUpdateAccess
+  delete: ConexionesDeleteAccess
+}
+
+type ConexionesFields {
+  content: ConexionesFields_content
+  from: ConexionesFields_from
+  to: ConexionesFields_to
+  updatedAt: ConexionesFields_updatedAt
+  createdAt: ConexionesFields_createdAt
+}
+
+type ConexionesFields_content {
+  create: ConexionesFields_content_Create
+  read: ConexionesFields_content_Read
+  update: ConexionesFields_content_Update
+  delete: ConexionesFields_content_Delete
+}
+
+type ConexionesFields_content_Create {
+  permission: Boolean!
+}
+
+type ConexionesFields_content_Read {
+  permission: Boolean!
+}
+
+type ConexionesFields_content_Update {
+  permission: Boolean!
+}
+
+type ConexionesFields_content_Delete {
+  permission: Boolean!
+}
+
+type ConexionesFields_from {
+  create: ConexionesFields_from_Create
+  read: ConexionesFields_from_Read
+  update: ConexionesFields_from_Update
+  delete: ConexionesFields_from_Delete
+}
+
+type ConexionesFields_from_Create {
+  permission: Boolean!
+}
+
+type ConexionesFields_from_Read {
+  permission: Boolean!
+}
+
+type ConexionesFields_from_Update {
+  permission: Boolean!
+}
+
+type ConexionesFields_from_Delete {
+  permission: Boolean!
+}
+
+type ConexionesFields_to {
+  create: ConexionesFields_to_Create
+  read: ConexionesFields_to_Read
+  update: ConexionesFields_to_Update
+  delete: ConexionesFields_to_Delete
+}
+
+type ConexionesFields_to_Create {
+  permission: Boolean!
+}
+
+type ConexionesFields_to_Read {
+  permission: Boolean!
+}
+
+type ConexionesFields_to_Update {
+  permission: Boolean!
+}
+
+type ConexionesFields_to_Delete {
+  permission: Boolean!
+}
+
+type ConexionesFields_updatedAt {
+  create: ConexionesFields_updatedAt_Create
+  read: ConexionesFields_updatedAt_Read
+  update: ConexionesFields_updatedAt_Update
+  delete: ConexionesFields_updatedAt_Delete
+}
+
+type ConexionesFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ConexionesFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ConexionesFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ConexionesFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ConexionesFields_createdAt {
+  create: ConexionesFields_createdAt_Create
+  read: ConexionesFields_createdAt_Read
+  update: ConexionesFields_createdAt_Update
+  delete: ConexionesFields_createdAt_Delete
+}
+
+type ConexionesFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ConexionesFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ConexionesFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ConexionesFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ConexionesCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConexionesReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConexionesUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConexionesDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Mutation {
+  createTodo(data: mutationTodoInput!, draft: Boolean): Todo
+  updateTodo(id: String!, data: mutationTodoUpdateInput!, draft: Boolean, autosave: Boolean): Todo
+  deleteTodo(id: String!): Todo
+  createUser(data: mutationUserInput!, draft: Boolean): User
+  updateUser(id: String!, data: mutationUserUpdateInput!, draft: Boolean, autosave: Boolean): User
+  deleteUser(id: String!): User
+  refreshTokenUser(token: String): usersRefreshedUser
+  logoutUser: String
+  unlockUser(email: String!): Boolean!
+  loginUser(email: String, password: String): usersLoginResult
+  forgotPasswordUser(email: String!, disableEmail: Boolean, expiration: Int): Boolean!
+  resetPasswordUser(token: String, password: String): usersResetPassword
+  verifyEmailUser(token: String): Boolean
+  createExpense(data: mutationExpenseInput!, draft: Boolean): Expense
+  updateExpense(id: String!, data: mutationExpenseUpdateInput!, draft: Boolean, autosave: Boolean): Expense
+  deleteExpense(id: String!): Expense
+  createExpenseCategory(data: mutationExpenseCategoryInput!, draft: Boolean): ExpenseCategory
+  updateExpenseCategory(id: String!, data: mutationExpenseCategoryUpdateInput!, draft: Boolean, autosave: Boolean): ExpenseCategory
+  deleteExpenseCategory(id: String!): ExpenseCategory
+  createExpenseGroup(data: mutationExpenseGroupInput!, draft: Boolean): ExpenseGroup
+  updateExpenseGroup(id: String!, data: mutationExpenseGroupUpdateInput!, draft: Boolean, autosave: Boolean): ExpenseGroup
+  deleteExpenseGroup(id: String!): ExpenseGroup
+  createIncome(data: mutationIncomeInput!, draft: Boolean): Income
+  updateIncome(id: String!, data: mutationIncomeUpdateInput!, draft: Boolean, autosave: Boolean): Income
+  deleteIncome(id: String!): Income
+  createClient(data: mutationClientInput!, draft: Boolean): Client
+  updateClient(id: String!, data: mutationClientUpdateInput!, draft: Boolean, autosave: Boolean): Client
+  deleteClient(id: String!): Client
+  createScore(data: mutationScoreInput!, draft: Boolean): Score
+  updateScore(id: String!, data: mutationScoreUpdateInput!, draft: Boolean, autosave: Boolean): Score
+  deleteScore(id: String!): Score
+  createBloque(data: mutationBloqueInput!, draft: Boolean): Bloque
+  updateBloque(id: String!, data: mutationBloqueUpdateInput!, draft: Boolean, autosave: Boolean): Bloque
+  deleteBloque(id: String!): Bloque
+  createConexione(data: mutationConexioneInput!, draft: Boolean): Conexione
+  updateConexione(id: String!, data: mutationConexioneUpdateInput!, draft: Boolean, autosave: Boolean): Conexione
+  deleteConexione(id: String!): Conexione
+  updatePreference(key: String!, value: JSON): Preference
+  deletePreference(key: String!): Preference
+}
+
+input mutationTodoInput {
+  listName: String
+  tasks: [mutationTodo_TasksInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationTodo_TasksInput {
+  name: String
+  complete: Boolean
+  id: String
+}
+
+input mutationTodoUpdateInput {
+  listName: String
+  tasks: [mutationTodoUpdate_TasksInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationTodoUpdate_TasksInput {
+  name: String
+  complete: Boolean
+  id: String
+}
+
+input mutationUserInput {
+  updatedAt: String
+  createdAt: String
+  email: String
+  resetPasswordToken: String
+  resetPasswordExpiration: String
+  loginAttempts: Float
+  lockUntil: String
+  password: String!
+}
+
+input mutationUserUpdateInput {
+  updatedAt: String
+  createdAt: String
+  email: String
+  resetPasswordToken: String
+  resetPasswordExpiration: String
+  loginAttempts: Float
+  lockUntil: String
+  password: String
+}
+
+type usersRefreshedUser {
+  user: usersJWT
+  refreshedToken: String
+  exp: Int
+}
+
+type usersJWT {
+  email: EmailAddress!
+  collection: String!
+}
+
+type usersLoginResult {
+  token: String
+  user: User
+  exp: Int
+}
+
+type usersResetPassword {
+  token: String
+  user: User
+}
+
+input mutationExpenseInput {
+  name: String
+  amount: Float
+  balance: Float
+  date: String
+  account: String
+  currency: String
+  valueDate: String
+  notes: String
+  category: String
+  group: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationExpenseUpdateInput {
+  name: String
+  amount: Float
+  balance: Float
+  date: String
+  account: String
+  currency: String
+  valueDate: String
+  notes: String
+  category: String
+  group: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationExpenseCategoryInput {
+  name: String
+  icon: String
+  color: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationExpenseCategoryUpdateInput {
+  name: String
+  icon: String
+  color: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationExpenseGroupInput {
+  name: String
+  icon: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationExpenseGroupUpdateInput {
+  name: String
+  icon: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationIncomeInput {
+  name: String
+  amount: Float
+  date: String
+  account: String
+  currency: String
+  valueDate: String
+  notes: String
+  client: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationIncomeUpdateInput {
+  name: String
+  amount: Float
+  date: String
+  account: String
+  currency: String
+  valueDate: String
+  notes: String
+  client: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationClientInput {
+  name: String
+  notes: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationClientUpdateInput {
+  name: String
+  notes: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationScoreInput {
+  title: String
+  content: String
+  date: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationScoreUpdateInput {
+  title: String
+  content: String
+  date: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationBloqueInput {
+  content: JSON!
+  connections: [String]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationBloqueUpdateInput {
+  content: JSON
+  connections: [String]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationConexioneInput {
+  content: JSON!
+  from: String
+  to: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationConexioneUpdateInput {
+  content: JSON
+  from: String
+  to: String
+  updatedAt: String
+  createdAt: String
+}
