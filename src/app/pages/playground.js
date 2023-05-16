@@ -1,6 +1,6 @@
-import { usePayloadCMS } from "../hooks/usePayloadCMS";
+import { usePayloadCMS } from "../../hooks/usePayloadCMS";
 
-export default function PayloadCMSPage() {
+export default function Playground() {
   const { data, error, loading } = usePayloadCMS(`
     query {
       blocks {

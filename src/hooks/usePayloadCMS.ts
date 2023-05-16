@@ -1,34 +1,24 @@
-import { useState, useEffect } from "react";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, InMemoryCache, gql, useQuery } from "@apollo/client";
 
 // Initialize Apollo Client
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: "http://192.168.1.11:3020/api/graphql", //process.env["PAYLOAD_CMS_SERVER_URL"],
   cache: new InMemoryCache(),
 });
 
-// Custom hook
-const usePayloadCMS = (query: string) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
+const GET_BLOCKS = gql`
+  query getBlocks {
+    Bloques {
+      id
+    }
+  }
+`;
 
-  useEffect(() => {
-    client
-      .query({
-        query: gql`
-          ${query}
-        `,
-      })
-      .then((result) => {
-        setData(result.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
-      });
-  }, [query]);
+// Custom hook
+const usePayloadCMS = () => {
+  const { loading, error, data } = useQuery(GET_BLOCKS, {
+    client,
+  });
 
   return { loading, error, data };
 };
