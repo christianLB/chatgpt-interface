@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 
 export default function Whiteboard() {
-  const { fetchAllData, update, create } = usePayloadCollection({
+  const { fetchAllData, update, create, fetchAll } = usePayloadCollection({
     collection: "bloques",
   });
   const { docs: blocks } = fetchAllData;
@@ -36,8 +36,9 @@ export default function Whiteboard() {
     },
   }));
 
-  const handleNewBlock = () => {
-    create({ body: { content: "new", x: 0, y: 0, w: 200, h: 150 } });
+  const handleNewBlock = async () => {
+    await create({ body: { content: "new", x: 0, y: 0, w: 400, h: 128 } });
+    fetchAll();
   };
 
   useEffect(() => {
