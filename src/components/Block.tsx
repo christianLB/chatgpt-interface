@@ -4,6 +4,7 @@ import { Resizable } from "re-resizable";
 import { Segment } from "semantic-ui-react";
 import axios from "axios";
 import useLLM from "usellm";
+import usePayloadCollection from "@/hooks/usePayloadCollection";
 interface IProps {
   block: any;
   top: number;
@@ -12,12 +13,14 @@ interface IProps {
 
 const Block = ({ block, top = 0, left = 0 }: IProps) => {
   const llm = useLLM({ serviceUrl: "/api/llm" });
-
+  const { update, updating } = usePayloadCollection({
+    collection: "bloques",
+  });
   const [prompt, setPrompt] = useState();
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<string>("");
 
-  const text = block?.content?.[0]?.children?.[0]?.text || "";
+  const text = block?.content || "";
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -39,9 +42,26 @@ const Block = ({ block, top = 0, left = 0 }: IProps) => {
         //setResponse((prev) => `${prev}${message.content}`),
       });
       console.log("Received message: ", message.content);
+      update({
+        id: block.id,
+        body: {
+          content: message.content,
+        },
+      });
     } catch (error) {
       console.error("Something went wrong!", error);
     }
+  };
+
+  const resizeStopHandler = (e: any, dir: any, ref: any) => {
+    console.log("resizeStop");
+    update({
+      id: block.id,
+      body: {
+        h: ref.offsetHeight,
+        w: ref.offsetWidth,
+      },
+    });
   };
 
   // const handleGenerate = async () => {
@@ -81,11 +101,12 @@ const Block = ({ block, top = 0, left = 0 }: IProps) => {
   return (
     <Resizable
       defaultSize={{
-        width: "auto",
-        height: "auto",
+        width: block.w,
+        height: block.h,
       }}
       enable={{ bottomRight: true }}
-      style={{ position: "absolute", left, top }}
+      style={{ position: "absolute", left: `${left}px`, top: `${top}px` }}
+      onResizeStop={resizeStopHandler}
     >
       <div
         ref={drag}
@@ -107,7 +128,7 @@ const Block = ({ block, top = 0, left = 0 }: IProps) => {
             onClick={handleGenerate}
             disabled={loading}
           >
-            {loading ? "Loading..." : "Generate"}
+            {loading ? "Loading..." : updating ? "Updating..." : "Generate"}
           </button>
         </div>
       </div>
