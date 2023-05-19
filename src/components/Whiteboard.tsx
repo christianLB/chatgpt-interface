@@ -17,8 +17,8 @@ export default function Whiteboard() {
     accept: "block",
     drop: (item, monitor) => {
       const delta = monitor.getDifferenceFromInitialOffset();
-      const left = Math.round(item.left + delta.x);
-      const top = Math.round(item.top + delta.y);
+      const left = Math.max(0, Math.round(item.left + delta.x));
+      const top = Math.max(0, Math.round(item.top + delta.y));
       setPositions((positions) => ({
         ...positions,
         [item.id]: { left, top },
@@ -35,7 +35,13 @@ export default function Whiteboard() {
           top: 100 * index,
         };
         return (
-          <Block key={block.id} block={block} left={pos.left} top={pos.top} />
+          <Block
+            key={block.id}
+            block={block}
+            left={pos.left}
+            top={pos.top}
+            positions={positions}
+          />
         );
       })}
     </div>

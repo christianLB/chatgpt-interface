@@ -25,3 +25,8 @@ body {
     )
     rgb(var(--background-start-rgb)); */
 }
+
+.block {
+  display: grid;
+  grid-template-rows: 1fr 40px;
+}
